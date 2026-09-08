@@ -34,7 +34,14 @@
       "name": "Kryoas V3",
       "tagline": "Customization & experimentation",
       "icon": "icons/kryoas-v3.svg",
-      "versions": []
+      "versions": [
+        {
+          "version": "4.4.8",
+          "file": "apps/kryoas-v3/4.4.8/kryoas-release-signed.apk",
+          "description": "Customization & experimentation build.",
+          "date": "2026-09-08"
+        }
+      ]
     }
   ]
 }
