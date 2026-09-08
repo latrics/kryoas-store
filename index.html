@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kryoas Downloads</title>
+<style>
+  :root {
+    --bg: #f4f5f3;
+    --card-bg: #ffffff;
+    --border: #dfe2de;
+    --text: #1c1f1c;
+    --muted: #6b756c;
+    --accent: #2f6f4f;
+    --accent-text: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161a;
+      --card-bg: #1c1f24;
+      --border: #2c3036;
+      --text: #eceff1;
+      --muted: #98a0a6;
+      --accent: #4f9c74;
+      --accent-text: #0b0d0a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding: 40px 20px 80px;
+  }
+  header {
+    max-width: 900px;
+    margin: 0 auto 36px;
+    text-align: center;
+  }
+  header h1 {
+    margin: 0 0 8px;
+    font-size: 1.8rem;
+  }
+  header p {
+    margin: 0;
+    color: var(--muted);
+  }
+  .grid {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+  }
+  .card img {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+  }
+  .card h2 {
+    margin: 4px 0 0;
+    font-size: 1.15rem;
+  }
+  .card .tagline {
+    margin: 0 0 10px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    min-height: 2.4em;
+  }
+  select {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 0.9rem;
+  }
+  .desc {
+    font-size: 0.85rem;
+    color: var(--muted);
+    min-height: 2.2em;
+    margin: 4px 0 0;
+  }
+  .download {
+    margin-top: 10px;
+    display: inline-block;
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: var(--accent);
+    color: var(--accent-text);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  .download[aria-disabled="true"] {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  .badge {
+    margin-top: 6px;
+    font-size: 0.8rem;
+    color: var(--muted);
+    border: 1px dashed var(--border);
+    border-radius: 999px;
+    padding: 4px 12px;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Kryoas Downloads</h1>
+  <p>Pick a build, pick a version, download the APK.</p>
+</header>
+<div class="grid" id="grid"></div>
+
+<script>
+async function main() {
+  const grid = document.getElementById('grid');
+  let data;
+  try {
+    const res = await fetch('apps.json', { cache: 'no-store' });
+    data = await res.json();
+  } catch (e) {
+    grid.textContent = 'Could not load app list.';
+    return;
+  }
+
+  for (const app of data.apps) {
+    const card = document.createElement('div');
+    card.className = 'card';
+
+    const img = document.createElement('img');
+    img.src = app.icon;
+    img.alt = app.name;
+    card.appendChild(img);
+
+    const h2 = document.createElement('h2');
+    h2.textContent = app.name;
+    card.appendChild(h2);
+
+    const tagline = document.createElement('p');
+    tagline.className = 'tagline';
+    tagline.textContent = app.tagline || '';
+    card.appendChild(tagline);
+
+    if (!app.versions || app.versions.length === 0) {
+      const badge = document.createElement('div');
+      badge.className = 'badge';
+      badge.textContent = 'Coming soon';
+      card.appendChild(badge);
+      grid.appendChild(card);
+      continue;
+    }
+
+    const select = document.createElement('select');
+    for (const v of app.versions) {
+      const opt = document.createElement('option');
+      opt.value = v.version;
+      opt.textContent = `${v.version} (${v.date})`;
+      select.appendChild(opt);
+    }
+    card.appendChild(select);
+
+    const desc = document.createElement('p');
+    desc.className = 'desc';
+    card.appendChild(desc);
+
+    const link = document.createElement('a');
+    link.className = 'download';
+    link.textContent = 'Download APK';
+    card.appendChild(link);
+
+    function render() {
+      const v = app.versions.find(v => v.version === select.value) || app.versions[0];
+      desc.textContent = v.description || '';
+      link.href = v.file;
+      link.setAttribute('download', '');
+    }
+    select.addEventListener('change', render);
+    render();
+
+    grid.appendChild(card);
+  }
+}
+main();
+</script>
+</body>
+</html>
