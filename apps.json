@@ -5,7 +5,14 @@
       "name": "Kryoas V1",
       "tagline": "Internal flying & backup",
       "icon": "icons/kryoas-v1.svg",
-      "versions": []
+      "versions": [
+        {
+          "version": "4.4.9",
+          "file": "apps/kryoas-v1/4.4.9/android-build-release-signed.apk",
+          "description": "Internal flying & backup build (no MAVLink signing requirement).",
+          "date": "2026-09-08"
+        }
+      ]
     },
     {
       "id": "kryoas-v2",
