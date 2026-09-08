@@ -5,22 +5,22 @@
       "name": "Kryoas V1",
       "tagline": "Internal flying & backup",
       "icon": "icons/kryoas-v1.svg",
-      "versions": [
-        {
-          "version": "4.4.8",
-          "versionCode": 107,
-          "file": "fdroid/repo/KryoasControlStation64.apk",
-          "description": "Initial internal build.",
-          "date": "2026-08-29"
-        }
-      ]
+      "versions": []
     },
     {
       "id": "kryoas-v2",
       "name": "Kryoas V2",
       "tagline": "Client release (MAVLink signing)",
       "icon": "icons/kryoas-v2.svg",
-      "versions": []
+      "versions": [
+        {
+          "version": "4.4.8",
+          "versionCode": 107,
+          "file": "fdroid/repo/KryoasControlStation64.apk",
+          "description": "Initial client release build (MAVLink signing required to arm).",
+          "date": "2026-08-29"
+        }
+      ]
     },
     {
       "id": "kryoas-v3",
