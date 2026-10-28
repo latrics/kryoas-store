@@ -7,6 +7,12 @@
       "icon": "icons/kryoas-v1.svg",
       "versions": [
         {
+          "version": "4.4.1-15-gcec39f981",
+          "file": "apps/kryoas-v1/4.4.1-15-gcec39f981/kryoas-v1-4.4.1-15-gcec39f981-aligned-signed.apk",
+          "description": "Fix: Send code button now enabled for emails with dots before the @ (e.g. first.last@company.com)",
+          "date": "2026-10-28"
+        },
+        {
           "version": "4.4.9",
           "file": "apps/kryoas-v1/4.4.9/android-build-release-signed.apk",
           "description": "Internal flying & backup build (no MAVLink signing requirement).",
