@@ -61,6 +61,12 @@
       "icon": "icons/kryoas-v3.svg",
       "versions": [
         {
+          "version": "4.4.9",
+          "file": "apps/kryoas-v3/4.4.9/kryoas-v3-4.4.9-aligned-signed.apk",
+          "description": "Fix: Send code button now enabled for emails with dots before the @ (e.g. first.last@company.com)",
+          "date": "2026-10-28"
+        },
+        {
           "version": "4.4.8",
           "file": "apps/kryoas-v3/4.4.8/kryoas-release-signed.apk",
           "description": "Customization & experimentation build.",
