@@ -27,6 +27,15 @@
       "icon": "icons/kryoas-v2.svg",
       "versions": [
         {
+          "version": "4.4.1-17",
+          "file": "fdroid/repo/KryoasControlStation64.apk",
+          "description": "In-app updates: Kryoas now tells you when a new version is in the store and updates itself in place, keeping your plans, logs, settings and license.",
+          "date": "2026-11-17",
+          "versionCode": 664401017,
+          "sha256": "cf68621dc01f32126db2fb5aeaa1710808bc3e4080ec7b11f94a09e639fe5914",
+          "size": 67231025
+        },
+        {
           "version": "4.4.1-6-g9167f9d86",
           "file": "fdroid/repo/KryoasControlStation64.apk",
           "description": "Target SDK 36 update",
