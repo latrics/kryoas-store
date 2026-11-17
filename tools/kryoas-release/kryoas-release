@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Build, sign and publish a Kryoas app to the Kryoas store. See: kryoas-release --help
+exec bash "$HOME/.claude/skills/kryoas-release/scripts/kryoas-release.sh" "$@"
