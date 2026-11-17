@@ -9,8 +9,8 @@
         {
           "version": "4.4.1-15-gcec39f981",
           "file": "apps/kryoas-v1/4.4.1-15-gcec39f981/kryoas-v1-4.4.1-15-gcec39f981-aligned-signed.apk",
-          "description": "Fix: Send code button now enabled for emails with dots before the @ (e.g. first.last@company.com)",
-          "date": "2026-10-28"
+          "description": "Synced with the main app: project sync, plan library, Route Loop, pilot photo, flight history by project, TDP zip import, pending missions panel, DEM terrain upload and crash fixes",
+          "date": "2026-11-17"
         },
         {
           "version": "4.4.9",
