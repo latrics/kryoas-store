@@ -7,6 +7,15 @@
       "icon": "icons/kryoas-v1.svg",
       "versions": [
         {
+          "version": "4.4.1-16",
+          "file": "apps/kryoas-v1/4.4.1-16/kryoas-v1-4.4.1-16-signed.apk",
+          "description": "In-app updates: Kryoas now tells you when a new version is in the store and updates itself in place, keeping your plans, logs, settings and license.",
+          "date": "2026-11-17",
+          "versionCode": 664401016,
+          "sha256": "43692b512f2396d4809571244d9d765ae8ce7c2a682018e054050216f081e18a",
+          "size": 64805499
+        },
+        {
           "version": "4.4.1-15-gcec39f981",
           "file": "apps/kryoas-v1/4.4.1-15-gcec39f981/kryoas-v1-4.4.1-15-gcec39f981-aligned-signed.apk",
           "description": "Synced with the main app: project sync, plan library, Route Loop, pilot photo, flight history by project, TDP zip import, pending missions panel, DEM terrain upload and crash fixes",
