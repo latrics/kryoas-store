@@ -36,6 +36,15 @@
       "icon": "icons/kryoas-v2.svg",
       "versions": [
         {
+          "version": "4.4.1-18",
+          "file": "fdroid/repo/KryoasControlStation64.apk",
+          "description": "Delete DEM",
+          "date": "2026-11-17",
+          "versionCode": 664401018,
+          "sha256": "6a3dc48dcc249d1e0f9fc51115f9e6b2324fdaf7e85816f666592b0aef460181",
+          "size": 67271985
+        },
+        {
           "version": "4.4.1-17",
           "file": "fdroid/repo/KryoasControlStation64.apk",
           "description": "In-app updates: Kryoas now tells you when a new version is in the store and updates itself in place, keeping your plans, logs, settings and license.",
