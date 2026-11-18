@@ -7,6 +7,15 @@
       "icon": "icons/kryoas-v1.svg",
       "versions": [
         {
+          "version": "4.4.1-17",
+          "file": "apps/kryoas-v1/4.4.1-17/kryoas-v1-4.4.1-17-signed.apk",
+          "description": "Plans can be edited again: open any .plan file (Plan library \u2192 Other plan files\u2026), change it, save it and upload it. TDP plans can be edited too. Every upload still needs the pre-flight form and pilot photo.",
+          "date": "2026-11-18",
+          "versionCode": 664401017,
+          "sha256": "5ecd3db03319d8f05fe0d5aecc33d96d848a2c280577ce5b0fdb95bbf961914d",
+          "size": 64817787
+        },
+        {
           "version": "4.4.1-16",
           "file": "apps/kryoas-v1/4.4.1-16/kryoas-v1-4.4.1-16-signed.apk",
           "description": "In-app updates: Kryoas now tells you when a new version is in the store and updates itself in place, keeping your plans, logs, settings and license.",
