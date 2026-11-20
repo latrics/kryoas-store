@@ -6,7 +6,17 @@
       "tagline": "Our own flying and testing \u00b7 UIN off",
       "section": "Kryoas 1.0 and later",
       "icon": "icons/internal.svg",
-      "versions": []
+      "versions": [
+        {
+          "version": "1.0.0",
+          "file": "apps/internal/1.0.0/kryoas-internal-1.0.0.apk",
+          "description": "Kryoas 1.0.0: Kryoas Internal is now its own app with its own folder (KryoasInternal). Open with / Share to Kryoas for .plan files and plan zips. Any plan can be edited and uploaded; the pre-flight form and photo are still required.",
+          "date": "2026-11-20",
+          "versionCode": 1010000001,
+          "sha256": "3b3e7a9af2d9bf5d7715e6d0cf6ccc12ee12c9394e8743bad323a0a5f7e487ba",
+          "size": 67321137
+        }
+      ]
     },
     {
       "id": "internal-uin",
