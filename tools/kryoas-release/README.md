@@ -69,6 +69,8 @@ Outputs are kept in `C:\Users\pc\kryoas-releases\kryoas-<name>\`: unsigned and s
 - **gradle: "kryoas-build.properties is missing":** qmake hasn't run in that build folder. Run `mingw32-make qmake`.
 - **"keystore password was incorrect":** a typo. You get 3 tries.
 - **Push HTTP 408:** the script retries once. Otherwise the commit is in `~/kryoas-store`; run `git push` there later.
+- **Push "Authentication failed" / "could not read Username":** the GitHub token saved in WSL has expired. The user must run `cd ~/kryoas-store && git push` in a WSL terminal and enter a personal access token. Never ask for the token in chat.
+- **How the store works** (channels, `apps.json`, sections, retired `publish.sh`): the kryoas-store `README.md`.
 
 ## Backup copy
 A copy of this skill (the scripts, plus this file as README.md) is in the kryoas-store repo under `tools/kryoas-release/`. After changing the script here, copy it there too and push.

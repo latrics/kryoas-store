@@ -5,6 +5,17 @@
 # and pushes it all to GitHub Pages so testers get the update notification.
 set -e
 
+# RETIRED with Kryoas 1.0.0 (see README.md). This was the pre-1.0 V2 flow: it
+# overwrites the one shared fdroid/repo/KryoasControlStation64.apk and the
+# kryoas-v2 entry. Releases now go through kryoas-release, which runs
+# publish-app.sh for each build's channel (and --bridge for kryoas-v2).
+# The F-Droid repo stays online as it is. Emergency only: KRYOAS_LEGACY_FDROID=1.
+if [ "${KRYOAS_LEGACY_FDROID:-}" != "1" ]; then
+  echo "publish.sh is retired. Use kryoas-release, or ./publish-app.sh <channel> <version> <apk> \"notes\"." >&2
+  echo "Channels: internal, internal-uin, client, client-uin (see README.md)." >&2
+  exit 1
+fi
+
 if [ -z "$1" ]; then
   echo "Usage: $0 /path/to/signed-release.apk [\"description text\"]"
   exit 1

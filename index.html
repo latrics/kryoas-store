@@ -43,8 +43,16 @@
     font-size: 1.8rem;
   }
   header p {
-    margin: 0;
+    margin: 0 0 6px;
     color: var(--muted);
+  }
+  .section-title {
+    max-width: 900px;
+    margin: 36px auto 14px;
+    font-size: 1rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
   }
   .grid {
     max-width: 900px;
@@ -124,8 +132,11 @@
 <header>
   <h1>Kryoas Downloads</h1>
   <p>Pick a build, pick a version, download the APK.</p>
+  <p><strong>Version</strong> (1.4.0) = how new the code is. <strong>Build</strong> = who it is for
+     (Internal or Client) and whether UIN (MAVLink signing) is on.
+     Installed apps update themselves from their own build.</p>
 </header>
-<div class="grid" id="grid"></div>
+<main id="sections"></main>
 
 <script>
 function truncate(text, max) {
@@ -134,17 +145,32 @@ function truncate(text, max) {
 }
 
 async function main() {
-  const grid = document.getElementById('grid');
+  const sections = document.getElementById('sections');
+  const grids = {};
+  function gridFor(name) {
+    const key = name || 'Other';
+    if (!grids[key]) {
+      const title = document.createElement('h2');
+      title.className = 'section-title';
+      title.textContent = key;
+      sections.appendChild(title);
+      grids[key] = document.createElement('div');
+      grids[key].className = 'grid';
+      sections.appendChild(grids[key]);
+    }
+    return grids[key];
+  }
   let data;
   try {
     const res = await fetch('apps.json', { cache: 'no-store' });
     data = await res.json();
   } catch (e) {
-    grid.textContent = 'Could not load app list.';
+    sections.textContent = 'Could not load app list.';
     return;
   }
 
   for (const app of data.apps) {
+    const grid = gridFor(app.section);
     const card = document.createElement('div');
     card.className = 'card';
 
