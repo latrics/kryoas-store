@@ -24,7 +24,17 @@
       "tagline": "Our own testing of UIN drones \u00b7 MAVLink signing on",
       "section": "Kryoas 1.0 and later",
       "icon": "icons/internal-uin.svg",
-      "versions": []
+      "versions": [
+        {
+          "version": "1.0.0",
+          "file": "apps/internal-uin/1.0.0/kryoas-internal-uin-1.0.0.apk",
+          "description": "Kryoas 1.0.0: Kryoas Internal is now its own app with its own folder (KryoasInternal). Open with / Share to Kryoas for .plan files and plan zips. Any plan can be edited and uploaded; the pre-flight form and photo are still required.",
+          "date": "2026-11-20",
+          "versionCode": 1010000001,
+          "sha256": "79826b3831c17f22634eaf81bae12e278271a4b128dc7c5c22dba00dafea23db",
+          "size": 67321137
+        }
+      ]
     },
     {
       "id": "client",
