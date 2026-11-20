@@ -42,7 +42,17 @@
       "tagline": "For clients \u00b7 UIN off",
       "section": "Kryoas 1.0 and later",
       "icon": "icons/client.svg",
-      "versions": []
+      "versions": [
+        {
+          "version": "1.0.0",
+          "file": "apps/client/1.0.0/kryoas-client-1.0.0.apk",
+          "description": "Kryoas 1.0.0: new version numbering (replaces 4.4.1). Open now shows every plan in the Missions folder in one list. Open with / Share to Kryoas for .plan files and plan zips. Any plan can be edited and uploaded; the pre-flight form and photo are still required.",
+          "date": "2026-11-20",
+          "versionCode": 1010000002,
+          "sha256": "01afa93cdc5d65e29ac72b7b1b0aaafdb96649dc6ba295345ec3c7c0f941b451",
+          "size": 67325233
+        }
+      ]
     },
     {
       "id": "client-uin",
