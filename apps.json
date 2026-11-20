@@ -1,9 +1,37 @@
 {
   "apps": [
     {
+      "id": "internal",
+      "name": "Kryoas Internal",
+      "tagline": "Our own flying and testing \u00b7 UIN off",
+      "icon": "icons/internal.svg",
+      "versions": []
+    },
+    {
+      "id": "internal-uin",
+      "name": "Kryoas Internal \u00b7 UIN",
+      "tagline": "Our own testing of UIN drones \u00b7 MAVLink signing on",
+      "icon": "icons/internal-uin.svg",
+      "versions": []
+    },
+    {
+      "id": "client",
+      "name": "Kryoas Client",
+      "tagline": "For clients \u00b7 UIN off",
+      "icon": "icons/client.svg",
+      "versions": []
+    },
+    {
+      "id": "client-uin",
+      "name": "Kryoas Client \u00b7 UIN",
+      "tagline": "For clients with UIN drones \u00b7 MAVLink signing on",
+      "icon": "icons/client-uin.svg",
+      "versions": []
+    },
+    {
       "id": "kryoas-v1",
       "name": "Kryoas V1",
-      "tagline": "Internal flying & backup",
+      "tagline": "Old internal app (4.4.1) \u00b7 replaced by Kryoas Internal",
       "icon": "icons/kryoas-v1.svg",
       "versions": [
         {
@@ -41,7 +69,7 @@
     {
       "id": "kryoas-v2",
       "name": "Kryoas V2",
-      "tagline": "Client release (MAVLink signing)",
+      "tagline": "Old client app (4.4.1, UIN) \u00b7 phones move to Kryoas Client \u00b7 UIN",
       "icon": "icons/kryoas-v2.svg",
       "versions": [
         {

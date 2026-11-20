@@ -11,7 +11,7 @@ DESCRIPTION="$4"
 
 if [ -z "$APP_ID" ] || [ -z "$VERSION" ] || [ -z "$APK_SRC" ] || [ -z "$DESCRIPTION" ]; then
   echo "Usage: $0 <app-id> <version> /path/to/signed.apk \"description text\""
-  echo "  app-id must be one of: kryoas-v1, kryoas-v2, kryoas-v3"
+  echo "  app-id: internal, internal-uin, client, client-uin (old: kryoas-v1, kryoas-v2, kryoas-v3)"
   exit 1
 fi
 

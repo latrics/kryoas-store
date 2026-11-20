@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <circle cx="60" cy="60" r="58" fill="#c62828" stroke="#8e1b1b" stroke-width="2"/>
+  <text x="60" y="62" font-family="system-ui, sans-serif" font-size="30" font-weight="700" fill="#ffffff" text-anchor="middle">CLIENT</text>
+  <text x="60" y="90" font-family="system-ui, sans-serif" font-size="20" font-weight="700" fill="#ffd27a" text-anchor="middle">UIN</text>
+</svg>

@@ -1,97 +1,74 @@
 ---
 name: kryoas-release
-description: Ship a Kryoas Control Station update (V1 or V2) to the Kryoas store with one command, so phones get the in-app update popup. Load for any Kryoas store release, publish, version bump, APK signing, or "push an update" request, and when an in-app update does not show up on a phone.
+description: Ship a Kryoas Control Station update (Internal / Internal · UIN / Client / Client · UIN builds) to the Kryoas store with one command, so phones get the in-app update popup. Load for any Kryoas store release, publish, version bump, APK signing, or "push an update" request, and when an in-app update does not show up on a phone.
 ---
 
 # Kryoas release (one command)
 
+Read `VERSIONING.md` in the repo first. It explains versions (`1.4.0`, `1.5.0-test.2`) and the 4 builds.
+
 ```bash
-kryoas-release v2 "What changed, in words the pilots understand"
-kryoas-release v1 "..."                  # Kryoas-V1 (no MAVLink signing)
-kryoas-release v2 "..." --mandatory      # users cannot press "Later"
-kryoas-release v2 "..." --dry-run        # build + package + verify only
-kryoas-release v2 "..." --skip-build     # repackage the already built .so
-kryoas-release v2 "..." --code 664401020 # pick the versionCode yourself
+kryoas-release all-internal "notes" --test   # 1.5.0-test.N to internal + internal-uin
+kryoas-release all-internal "notes"          # 1.5.0 to internal + internal-uin
+kryoas-release all-client "notes"            # 1.5.0 to client + client-uin
+kryoas-release client-uin "notes"            # just one build
+kryoas-release internal,client "notes"       # any comma-separated list
+kryoas-release all-internal "..." --dry-run  # build + package + check only
+kryoas-release all-client "..." --mandatory  # users cannot press "Later"
 ```
 
-Run it in **Git Bash** on the build PC. `kryoas-release` is `~/bin/kryoas-release`, which runs
-`~/.claude/skills/kryoas-release/scripts/kryoas-release.sh`.
+- **Builds:** `internal`, `internal-uin`, `client`, `client-uin`. Each name is also its store channel.
+- **Repo:** one repo, `C:\Users\pc\qgroundcontrol-v4.4.1`. The `KRYOAS_REPO` environment variable overrides it.
+- **Version:** `kryoas-version.txt` in the repo. Bump it by editing and committing; the tool never edits it.
+- **Where to run it:** Git Bash on the build PC. `kryoas-release` is `~/bin/kryoas-release`, which runs `scripts/kryoas-release.sh`.
 
 ## What it does (stops at the first problem)
-1. **Version.** Reads the channel's highest versionCode from the live `apps.json` and the
-   manifest's versionCode. Takes the larger, adds 1, and derives the name from it
-   (664401018 → `4.4.1-18`).
-2. **Build.** Runs `mingw32-make -j8` in `<repo>/build/android-release-64`. It first re-runs
-   qmake if a `.pro`/`.pri` is newer than the Makefile, because qmake doesn't re-run by itself.
-3. **Package.** Writes the version into `android/AndroidManifest.xml` after the build, because
-   the post-link `update_android_version.sh` overwrites it. Copies the fresh `.so` into
-   `android-build/libs/arm64-v8a`, because `make install` from Git Bash writes to
-   `C:\C\Users\...`. Then runs `androiddeployqt --release --gradle`.
-4. **Check the APK.** It checks:
-   - versionCode and package name;
-   - the updater permission;
-   - the channel meta-data (`kryoas-v1`/`kryoas-v2`);
-   - that it is not debuggable;
-   - that the `.so` inside the APK equals the freshly built one.
-5. **Sign.** Opens a separate WSL window: zipalign, then `apksigner` with the store keystore
-   `~/keystores/kryoas-release.keystore`. The user types the password there, with 3 attempts.
-   The password never enters the transcript or any log. The script then checks the
-   certificate is the store key `9be7fdc0…`.
-6. **Publish.** Pulls `~/kryoas-store`, then runs `publish.sh` (v2) or
-   `publish-app.sh kryoas-v1 <name>` (v1). These write `versionCode`, `sha256`, `size` (and
-   `minVersionCode` with `--mandatory`), commit and push. If the push stalls, it retries with
-   HTTP/1.1 and a long low-speed timeout.
-7. **Check live.** Polls `raw.githubusercontent.com/.../apps.json` until the new versionCode
-   shows, then checks the live APK's SHA-256 matches the signed file.
+1. **Source tree.** Client releases need a clean tree and warn when not on `main`. Internal releases may have uncommitted changes, and the app then shows `+changes`.
+2. **Version.** Reads `kryoas-version.txt` and the live `apps.json`. The build number is the highest one already used for this version on any channel, plus 1. All builds in this run share that number:
+   - versionCode = `1 MM mm pp BBB`;
+   - the name is `X.Y.Z`, or `X.Y.Z-test.BBB` with `--test`.
+3. **Refuses when:**
+   - `--test` is used on a client build;
+   - a channel already has this exact version, so it needs a PATCH bump;
+   - a channel already has a newer version;
+   - the channel doesn't exist in `apps.json`;
+   - a client release's version was never on `internal`/`internal-uin` (override with `--no-internal-first`).
+4. **Builds each one.** Sets `KRYOAS_TRACK` / `KRYOAS_UIN` / `KRYOAS_BUILD` / `KRYOAS_TEST`, then:
+   - always runs `mingw32-make qmake`, then `mingw32-make -j8` in `build/android-release-64`;
+   - only `KryoasBuildInfo.cc` recompiles between builds;
+   - copies the `.so` by hand, then `androiddeployqt --release --gradle`.
+5. **Checks each APK.** Package, versionCode and versionName, label (`Kryoas` or `Kryoas Internal`), channel meta-data, updater permission, not debuggable, and that the `.so` in the APK is the fresh build.
+6. **Signs all of them in one WSL window.** The password is typed once there; it never reaches this transcript or a log. Then checks every certificate is the store key `9be7fdc0…`.
+7. **Publishes.** Runs `~/kryoas-store/publish-app.sh <channel> <name> <apk> <notes>` per build, retrying the push on a slow link.
+8. **Checks live.** Polls the raw `apps.json` for the new versionCode on every channel and compares SHA-256 with the signed APK.
+9. **Tags locally** `kryoas-<name>`. Push the tag only when the user asks.
 
-Outputs are kept in `C:\Users\pc\kryoas-releases\<channel>-<name>\`: unsigned and signed APK,
-make/deploy logs, `sign.status`.
+Outputs are kept in `C:\Users\pc\kryoas-releases\kryoas-<name>\`: unsigned and signed APKs, and per-build qmake/make/deploy logs.
 
 ## When Claude runs it
-- Run it in the background, because the build takes 10–40 min. Tell the user that a WSL
-  window will ask for the keystore password. Never ask for the password in chat.
-- A `--dry-run` first is cheap insurance after big merges.
-- Afterwards, the manifest in the repo holds the released version. Remind the user to commit
-  it; don't commit without being asked.
-- An FCM nudge is optional. Send a data message `{"type":"APP_UPDATE"}` to topic
-  `app-update-<channel>` to make phones check right away instead of within 6 h.
+- Run it in the background. A first build takes 10–40 min; later builds in the same run take a few minutes each.
+- Tell the user a WSL window will ask for the keystore password. Never ask for it in chat.
+- Offer `--dry-run` first after big merges. It doesn't need the store channels to exist.
+- An FCM nudge is optional: send the data message `{"type":"APP_UPDATE"}` to topic `app-update-<channel>`.
 
 ## Rules
-- **Never publish a Play build.** Play builds use `KRYOAS_PLAY_BUILD=1`, which strips the
-  updater; the script unsets that variable. Never re-sign a Qt Creator Play APK for the store.
-- **Every store APK must be signed with the store key** (`9be7fdc0…`). Another key means
-  phones refuse the update. Never tell users to uninstall to get past that: uninstalling
-  erases their data.
-- **versionCode must only go up.** `publish*.sh` refuses otherwise (`ALLOW_SAME_CODE=1`
-  overrides; only use it to replace a broken upload nobody installed).
-- **All variants share the package** `com.kryoas.controlstation`. The channel meta-data is
-  what keeps V1 phones on V1 and V2 phones on V2.
-- **Repos:** v1 = `C:\Users\pc\Kryoas-V1`, v2 = `C:\Users\pc\qgroundcontrol-v4.4.1`. V3 is
-  not wired up: there is no repo/build dir known to the tool.
+- **Never publish a Play build.** The script unsets `KRYOAS_PLAY_BUILD`.
+- **Every store APK is signed with the store key** (`9be7fdc0…`). Never tell users to uninstall to get past a signer mismatch: uninstalling erases their data.
+- **versionCode only goes up.** A released version is never reused: fixes are a PATCH bump.
+- **UIN and non-UIN builds of a track share a package.** Only the channel keeps a phone on its build. To switch a phone between UIN and non-UIN, install the other APK by hand.
+- **Internal and Client are separate packages.** They install side by side; a phone can't move between them by update.
+
+## Old channels (before 1.0.0)
+- **`kryoas-v2`** holds the old V2 client phones on 4.4.1-x. The first client release uses `--bridge` (`kryoas-release client-uin "…" --bridge --no-internal-first` if needed), which also publishes the Client · UIN APK there. After installing it, those phones follow `client-uin`.
+- **`kryoas-v1`** held the internal phones. Internal is now its own package, so those phones get Kryoas Internal installed by hand once; then the channel is retired.
+- **`kryoas-v3`** is experiments and is not wired into this tool yet.
 
 ## Troubleshooting
-- **"Update available" not showing right after a publish:** GitHub's raw CDN caches
-  `apps.json` for about 5 min. Use Profile → Check for updates after that.
-- **A phone with a debug-signed or V1-debug app** can't take a store update. It needs a
-  one-time uninstall and reinstall. Back up first with
-  `adb exec-out "run-as com.kryoas.controlstation tar -cf - ." > backup.tar`, which only
-  works for debug builds.
-- **"keystore password was incorrect"** in the window: it's a typo. You get 3 tries per run.
-- **Build fails with `undefined reference` to a class that exists:** stale Makefile. Run
-  `mingw32-make qmake` with `ANDROID_NDK_ROOT` set; the script does this when a
-  `.pro` changes.
-- **Push HTTP 408:** the script retries once. If it still fails, the commit is in
-  `~/kryoas-store`; run `git push` there later.
+- **"Update available" not showing right after a publish:** GitHub's raw CDN caches `apps.json` for about 5 min.
+- **gradle: "No matching client found for package name com.kryoas.controlstation.internal":** the Internal app isn't in `android/google-services.json`. It must be registered in Firebase project `age-krayos` and the file updated.
+- **gradle: "kryoas-build.properties is missing":** qmake hasn't run in that build folder. Run `mingw32-make qmake`.
+- **"keystore password was incorrect":** a typo. You get 3 tries.
+- **Push HTTP 408:** the script retries once. Otherwise the commit is in `~/kryoas-store`; run `git push` there later.
 
-## Installing on the build PC
-This folder is the backed-up copy. The working copy lives in
-`C:\Users\pc\.claude\skills\kryoas-release\` (the Claude Code skill), with
-`kryoas-release` copied to `C:\Users\pc\bin\` (on Git Bash's PATH). After
-changing the script, update both copies.
-
-To set it up on a fresh PC:
-1. Copy `kryoas-release.sh` and `sign-window.sh` to `~/.claude/skills/kryoas-release/scripts/`
-   and `README.md` there as `SKILL.md`.
-2. Copy `kryoas-release` to `~/bin/`.
-3. Check the paths at the top of `kryoas-release.sh` (repos, Android SDK/NDK, Qt), and that
-   WSL has `zipalign`, `apksigner` and `~/keystores/kryoas-release.keystore`.
+## Backup copy
+A copy of this skill (the scripts, plus this file as README.md) is in the kryoas-store repo under `tools/kryoas-release/`. After changing the script here, copy it there too and push.
