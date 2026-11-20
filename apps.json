@@ -35,6 +35,15 @@
       "icon": "icons/internal-uin.svg",
       "versions": [
         {
+          "version": "1.1.0",
+          "file": "apps/internal-uin/1.1.0/kryoas-internal-uin-1.1.0.apk",
+          "description": "Route Monitoring: new Laps setting (0 = until you take over), the loop is drawn closed in the Fly View with a laps-completed counter, and Route Monitoring now has its picture in the new-plan screen.",
+          "date": "2026-11-20",
+          "versionCode": 1010100001,
+          "sha256": "b440105b7311b6e55f37ea633626b8380f8cd722f47a03e716807676f45a76ce",
+          "size": 68152625
+        },
+        {
           "version": "1.0.0",
           "file": "apps/internal-uin/1.0.0/kryoas-internal-uin-1.0.0.apk",
           "description": "Kryoas 1.0.0: Kryoas Internal is now its own app with its own folder (KryoasInternal). Open with / Share to Kryoas for .plan files and plan zips. Any plan can be edited and uploaded; the pre-flight form and photo are still required.",
