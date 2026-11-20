@@ -127,21 +127,28 @@ replace a broken upload nobody installed.
 **Nudge phones right away (optional):** send an FCM data message `{"type": "APP_UPDATE"}` to topic
 `app-update-<channel>`, e.g. `app-update-client-uin`. Otherwise phones find the update within 6 h.
 
-## Moving existing phones onto 1.0
+## Release history and moving phones onto 1.0
 
-- **Old V2 client phones** (`kryoas-v2`): make the first client release with `--bridge`:
+**1.0.0 (2026-11-20)** is live on all four channels, from KryoasControlStation tag `kryoas-1.0.0`:
+- `internal` and `internal-uin`: versionCode `1010000001`;
+- `client` and `client-uin`: versionCode `1010000002`.
 
-  ```bash
-  kryoas-release client-uin "…" --bridge --no-internal-first
-  ```
+Client · UIN was also published to `kryoas-v2`. What changed is in KryoasControlStation's
+`CHANGELOG.md`.
 
-  The phones get Kryoas Client · UIN 1.0.0 as a normal in-app update, keeping all their data. After
-  that they follow `client-uin`.
+- **Old V2 client phones** (`kryoas-v2`): they get Kryoas Client · UIN 1.0.0 as a normal in-app
+  update, keeping all their data. After that they follow `client-uin`.
 - **Old V1 internal phones** (`kryoas-v1`): Kryoas Internal is a different app, so install it by
-  hand once.
+  hand once from the download page.
   - **Activate it:** the old app then goes drain-only, finishes its uploads and can be uninstalled.
   - **Plans and projects:** Kryoas Internal keeps them in `KryoasInternal/` on the phone, not
     `KryoasControlStation/`.
+
+  Retire `kryoas-v1` once no phone uses it.
+
+**Store size:** each APK is about 64 MB. GitHub warns above 50 MB and refuses above 100 MB per file,
+and the repo grows by every APK published. Moving the APKs to GitHub Releases or Git LFS is the next
+step for the store.
 
 ## Adding a channel
 

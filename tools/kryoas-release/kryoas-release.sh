@@ -141,6 +141,20 @@ fi
 CODE=$(( BASE + BUILD_NO ))
 if [ "$TEST" = 1 ]; then NAME="$VERSION-test.$BUILD_NO"; else NAME="$VERSION"; fi
 echo "Version $NAME  build $BUILD_NO  versionCode $CODE  builds: $BUILDS"
+# A final release needs its CHANGELOG.md section (that is what pilots are told changed).
+if [ "$TEST" = 0 ] && ! grep -q "^## ${VERSION//./\\.}\b" "$REPO/CHANGELOG.md" 2>/dev/null; then
+  die "CHANGELOG.md has no '## $VERSION' section. Add what changed in $VERSION (tagged by app) and commit first."
+fi
+
+# What each APK will contain (FEATURES.md is generated from the feature table).
+step "Features per build (FEATURES.md)"
+[ -f "$REPO/FEATURES.md" ] || die "$REPO/FEATURES.md is missing"
+for B in $BUILDS; do
+  # fields: $1 is empty (line starts with |), $2 the feature, $3..$6 the four apps
+  case "$B" in internal) COL=3 ;; internal-uin) COL=4 ;; client) COL=5 ;; client-uin) COL=6 ;; esac
+  FEATS=$(awk -F'|' -v c="$COL" '/^\| Feature \|/{t=1; next} t && /^\|---/{next} t && /^\|/{f=$2; v=$c; gsub(/^ +| +$/,"",f); gsub(/^ +| +$/,"",v); if (v ~ /^since/) printf "%s%s (%s)", (n++ ? ", " : ""), f, v} t && !/^\|/{exit}' "$REPO/FEATURES.md")
+  printf '  %-13s %s\n' "$B:" "${FEATS:-standard set only}"
+done
 OUT="$WORK/kryoas-$NAME"
 mkdir -p "$OUT"
 
@@ -254,12 +268,20 @@ if [ "$BRIDGE" = 1 ]; then verify_live kryoas-v2 "kryoas-client-uin-$NAME.apk"; 
 
 # ── Tag ──────────────────────────────────────────────────────────────────────
 TAG="kryoas-$NAME"
-if git -C "$REPO" rev-parse -q --verify "refs/tags/$TAG" > /dev/null; then
+# MSYS_NO_PATHCONV=1 (set for the Android tools) stops Git Bash turning /c/...
+# into C:/..., so run git from inside the repo instead of git -C "$REPO".
+cd "$REPO"
+if git rev-parse -q --verify "refs/tags/$TAG" > /dev/null; then
   echo "Tag $TAG already exists (an earlier release of this version); not moved."
 else
-  git -C "$REPO" tag -a "$TAG" -m "Kryoas $NAME ($CODE): $BUILDS" "$COMMIT"
+  git tag -a "$TAG" -m "Kryoas $NAME ($CODE): $BUILDS" "$COMMIT"
   echo "Tagged $COMMIT as $TAG (local; push it with: git push origin $TAG)"
 fi
 echo
 echo "Phones on these channels with the updater will offer it on next launch/return to the app"
 echo "(GitHub's cache can delay this ~5 min), or within 6 h in the background."
+if [ "$TEST" = 0 ]; then
+  echo
+  echo "Once every app that should get $VERSION has it: date its CHANGELOG.md section and bump"
+  echo "kryoas-version.txt on main to the next version with a new section (VERSIONING.md)."
+fi

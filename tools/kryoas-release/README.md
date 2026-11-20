@@ -32,7 +32,11 @@ kryoas-release all-client "..." --mandatory  # users cannot press "Later"
    - a channel already has this exact version, so it needs a PATCH bump;
    - a channel already has a newer version;
    - the channel doesn't exist in `apps.json`;
-   - a client release's version was never on `internal`/`internal-uin` (override with `--no-internal-first`).
+   - a client release's version was never on `internal`/`internal-uin` (override with `--no-internal-first`);
+   - a final (non-test) release's version has no `## X.Y.Z` section in `CHANGELOG.md`.
+
+   It also prints each build's features, read from `FEATURES.md`, so you see what every APK contains.
+   Which app has which feature is decided by `src/Krayos/KryoasFeatures.cc` (see `VERSIONING.md`).
 4. **Builds each one.** Sets `KRYOAS_TRACK` / `KRYOAS_UIN` / `KRYOAS_BUILD` / `KRYOAS_TEST`, then:
    - always runs `mingw32-make qmake`, then `mingw32-make -j8` in `build/android-release-64`;
    - only `KryoasBuildInfo.cc` recompiles between builds;
@@ -59,8 +63,9 @@ Outputs are kept in `C:\Users\pc\kryoas-releases\kryoas-<name>\`: unsigned and s
 - **Internal and Client are separate packages.** They install side by side; a phone can't move between them by update.
 
 ## Old channels (before 1.0.0)
-- **`kryoas-v2`** holds the old V2 client phones on 4.4.1-x. The first client release uses `--bridge` (`kryoas-release client-uin "…" --bridge --no-internal-first` if needed), which also publishes the Client · UIN APK there. After installing it, those phones follow `client-uin`.
-- **`kryoas-v1`** held the internal phones. Internal is now its own package, so those phones get Kryoas Internal installed by hand once; then the channel is retired.
+- **1.0.0 is released (2026-11-20)** on all four channels; tag `kryoas-1.0.0`.
+- **`kryoas-v2`** got Client · UIN 1.0.0 through `--bridge`, so old V2 phones update in place and then follow `client-uin`. Don't use `--bridge` again unless phones are still on 4.4.1.
+- **`kryoas-v1`** held the old internal phones. Kryoas Internal is its own package, so those phones get it installed by hand once. Retire the channel when no phone uses it.
 - **`kryoas-v3`** is experiments and is not wired into this tool yet.
 
 ## Troubleshooting
