@@ -62,6 +62,15 @@
       "icon": "icons/client.svg",
       "versions": [
         {
+          "version": "1.1.0",
+          "file": "apps/client/1.1.0/kryoas-client-1.1.0.apk",
+          "description": "Route Monitoring: new Laps setting (0 = until you take over), the loop is drawn closed in the Fly View with a laps-completed counter, and Route Monitoring now has its picture in the new-plan screen.",
+          "date": "2026-11-20",
+          "versionCode": 1010100001,
+          "sha256": "32f010f4000e4de0089b2e5b1d4b9e2c58778a6a968f0556adf0cba0c5d2c2f4",
+          "size": 68156721
+        },
+        {
           "version": "1.0.0",
           "file": "apps/client/1.0.0/kryoas-client-1.0.0.apk",
           "description": "Kryoas 1.0.0: new version numbering (replaces 4.4.1). Open now shows every plan in the Missions folder in one list. Open with / Share to Kryoas for .plan files and plan zips. Any plan can be edited and uploaded; the pre-flight form and photo are still required.",
