@@ -116,6 +116,15 @@
       "icon": "icons/client-uin.svg",
       "versions": [
         {
+          "version": "1.2.0",
+          "file": "apps/client-uin/1.2.0/kryoas-client-uin-1.2.0.apk",
+          "description": "Resume an interrupted survey from where it stopped (Survey interrupted card). No pictures on the way home in RTL. TCP links set to connect on start now connect by themselves when the drone comes up.",
+          "date": "2026-11-20",
+          "versionCode": 1010200001,
+          "sha256": "4b67e63bed2f099af6b40290af7daf37ff0f323d2206d9c56b296898ce9ae9dd",
+          "size": 68197681
+        },
+        {
           "version": "1.1.0",
           "file": "apps/client-uin/1.1.0/kryoas-client-uin-1.1.0.apk",
           "description": "Route Monitoring: new Laps setting (0 = until you take over), the loop is drawn closed in the Fly View with a laps-completed counter, and Route Monitoring now has its picture in the new-plan screen.",
