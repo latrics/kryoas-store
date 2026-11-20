@@ -60,7 +60,17 @@
       "tagline": "For clients with UIN drones \u00b7 MAVLink signing on",
       "section": "Kryoas 1.0 and later",
       "icon": "icons/client-uin.svg",
-      "versions": []
+      "versions": [
+        {
+          "version": "1.0.0",
+          "file": "apps/client-uin/1.0.0/kryoas-client-uin-1.0.0.apk",
+          "description": "Kryoas 1.0.0: new version numbering (replaces 4.4.1). Open now shows every plan in the Missions folder in one list. Open with / Share to Kryoas for .plan files and plan zips. Any plan can be edited and uploaded; the pre-flight form and photo are still required.",
+          "date": "2026-11-20",
+          "versionCode": 1010000002,
+          "sha256": "67c9778790bc893f3f5fa6de5cbd92725e8d0ab5649fd22581904f17847156bf",
+          "size": 67329329
+        }
+      ]
     },
     {
       "id": "kryoas-v3",
